@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Making Science — Assistant Demo</title>
+  <!-- CES chat widget SDK -->
+  <script defer src="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/chat-messenger.js"></script>
+  <link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-default.css">
+  <link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-layout.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1b2a4a; }
+    nav { background: #0d1b3d; color: #fff; padding: 1rem 2.5rem; display: flex; align-items: center; gap: 2rem; }
+    nav .logo { font-weight: 800; font-size: 1.15rem; letter-spacing: .02em; }
+    nav .logo span { background: linear-gradient(90deg, #2440ff, #a020f0, #ff2e88, #ffb400); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    nav a { color: #cdd6ea; text-decoration: none; font-size: .9rem; }
+    header { background: linear-gradient(135deg, #0d1b3d 0%, #1b2a5e 100%); color: #fff; padding: 5rem 2.5rem; }
+    header h1 { font-size: 2.6rem; max-width: 30ch; line-height: 1.15; }
+    header h1 em { font-style: normal; background: linear-gradient(90deg, #ff2e88, #ffb400); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    header p { margin-top: 1rem; max-width: 60ch; color: #cdd6ea; font-size: 1.05rem; }
+    main { padding: 3rem 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
+    .card { border: 1px solid #e3e8f2; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 16px rgba(13,27,61,.06); }
+    .card h3 { font-size: 1rem; margin-bottom: .5rem; }
+    .card p { font-size: .9rem; color: #5a6782; line-height: 1.5; }
+    footer { padding: 2rem 2.5rem; color: #8a94ab; font-size: .8rem; text-align: center; border-top: 1px solid #e3e8f2; margin-top: 2rem; }
+    .note { background: #fff7e0; border: 1px solid #f0dfa0; border-radius: 8px; padding: .8rem 1.2rem; margin: 1.5rem auto 0; max-width: 1100px; font-size: .85rem; color: #6b5b1e; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">making<span>science</span> · assistant demo</div>
+    <a href="#">Capabilities</a><a href="#">About</a><a href="#">ESG</a>
+  </nav>
+
+  <header>
+    <h1>The Hybrid Intelligence. <em>Decisive Advantage.</em></h1>
+    <p>Internal demo page for the Making Science website assistant. Open the chat bubble
+       (bottom-right) and talk to the agent exactly as a site visitor would.</p>
+  </header>
+
+  <div class="note">
+    ⚠️ Internal testing page — not the production embed. Try: general company questions,
+    product questions (ad-machina, Opti Suite), a lead flow ("I'd like to talk to someone"),
+    an out-of-scope question (careers, pricing), and a non-English message.
+  </div>
+
+  <main>
+    <div class="card"><h3>🧪 Grounded answers</h3><p>Every company fact should come from the approved content. If it's not covered, the agent should say so — not improvise.</p></div>
+    <div class="card"><h3>🤝 Lead capture</h3><p>Show buying intent and check that the agent collects email + name + company, asks for consent, and only then submits.</p></div>
+    <div class="card"><h3>🛡️ Scope guard</h3><p>Careers, pricing, legal, competitors — each should get its specific redirect, politely.</p></div>
+  </main>
+
+  <footer>Making Science website assistant — internal demo · ms-webscorp-pre</footer>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       EMBED SNIPPET — after creating the web-widget deployment in
+       CX Agent Studio (Deploy → Web widget), open its "Integrate"
+       tab and replace BOTH placeholders below with the real values.
+       ───────────────────────────────────────────────────────────── -->
+  <script>
+    window.addEventListener("chat-messenger-loaded", () => {
+      chatSdk.registerContext(
+        chatSdk.prebuilts.ces.createContext({
+          deploymentName: "REPLACE_WITH_DEPLOYMENT_NAME", // projects/<number>/locations/eu/apps/<app-id>/deployments/<deployment-id>
+          tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+        }),
+      );
+    });
+  </script>
+  <chat-messenger url-allowlist="*" render-mode="slide-in">
+    <chat-messenger-chat-bubble chat-title="Making Science Assistant"></chat-messenger-chat-bubble>
+    <chat-messenger-container chat-title="Making Science Assistant" enable-file-upload enable-audio-input>
+      <chat-reset-session-button slot="titlebar-actions" title-text="Start new chat"></chat-reset-session-button>
+    </chat-messenger-container>
+  </chat-messenger>
+</body>
+</html>
