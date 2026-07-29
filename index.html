@@ -53,25 +53,51 @@
 
   <footer>Making Science website assistant — internal demo · ms-webscorp-pre</footer>
 
-  <!-- ─────────────────────────────────────────────────────────────
-       EMBED SNIPPET — after creating the web-widget deployment in
-       CX Agent Studio (Deploy → Web widget), open its "Integrate"
-       tab and replace BOTH placeholders below with the real values.
-       ───────────────────────────────────────────────────────────── -->
+  <!-- ── Chat widget: official Integrate snippet (deployment c881ca00…) ── -->
+  <style>
+    /* Making Science theming — documented palette tokens + internal tokens
+       for the titlebar/launcher that the default theme doesn't expose. */
+    chat-messenger {
+      --chat-messenger-color--primary: #f0076f;
+      --chat-messenger-color--on-primary: #ffffff;
+      --chat-messenger-color--outline-active: #f0076f;
+      --chat-messenger-color--link: #0d1b3d;
+      --chat-messenger-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --chat-messenger-internal-primary-color: #f0076f;
+      --chat-messenger-internal-titlebar-background: #0d1b3d;
+      --chat-messenger-internal-titlebar-background-color: #0d1b3d;
+      --chat-messenger-internal-titlebar-font-color: #ffffff;
+      --chat-messenger-internal-titlebar-icon-font-color: #ffffff;
+      --chat-messenger-internal-titlebar-button-color: #ffffff;
+      --chat-messenger-internal-titlebar-button-color-hover: #f0076f;
+      --chat-messenger-internal-chat-bubble-background: #f0076f;
+      --chat-messenger-internal-chat-bubble-background-color: #f0076f;
+      --chat-messenger-internal-chat-bubble-icon-color: #ffffff;
+    }
+  </style>
   <script>
     window.addEventListener("chat-messenger-loaded", () => {
       chatSdk.registerContext(
         chatSdk.prebuilts.ces.createContext({
-          deploymentName: "REPLACE_WITH_DEPLOYMENT_NAME", // projects/<number>/locations/eu/apps/<app-id>/deployments/<deployment-id>
-          tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+          deploymentName: "projects/109044558918/locations/eu/apps/6e6b11a6-c0e5-43b3-813a-28f21963fbcb/deployments/c881ca00-3252-4443-9356-76061fa75a4a",
+          tokenBroker: {
+            enableTokenBroker: true,
+            enableRecaptcha: false
+          }
         }),
       );
     });
   </script>
-  <chat-messenger url-allowlist="*" render-mode="slide-in">
-    <chat-messenger-chat-bubble chat-title="Making Science Assistant"></chat-messenger-chat-bubble>
-    <chat-messenger-container chat-title="Making Science Assistant" enable-file-upload enable-audio-input>
+  <chat-messenger url-allowlist="*">
+    <chat-messenger-container
+      chat-title="Making Science Assistant"
+      chat-title-icon="ms-logo.png"
+      enable-file-upload
+      enable-audio-input
+    >
       <chat-reset-session-button slot="titlebar-actions" title-text="Start new chat"></chat-reset-session-button>
+      <chat-toggle-dialog-button slot="titlebar-actions" title-text-expanded="Collapse" title-text-collapsed="Expand"></chat-toggle-dialog-button>
+      <chat-messenger-close-button slot="titlebar-actions" title-text="Close"></chat-messenger-close-button>
     </chat-messenger-container>
   </chat-messenger>
 </body>
