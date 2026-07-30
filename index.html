@@ -74,6 +74,16 @@
       --chat-messenger-internal-chat-bubble-background-color: #f0076f;
       --chat-messenger-internal-chat-bubble-icon-color: #ffffff;
     }
+    /* The SDK parks the collapsed launcher at the top of its column; pin it to
+       the familiar bottom-right corner instead. Position-only override on the
+       slotted (light-DOM) bubble — never touch the chat-messenger host. */
+    chat-messenger-chat-bubble {
+      position: fixed !important;
+      bottom: 24px;
+      right: 24px;
+      top: auto !important;
+      left: auto !important;
+    }
   </style>
   <script>
     window.addEventListener("chat-messenger-loaded", () => {
