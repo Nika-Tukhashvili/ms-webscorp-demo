@@ -75,9 +75,11 @@
       --chat-messenger-internal-chat-bubble-icon-color: #ffffff;
     }
     /* The SDK parks the collapsed launcher at the top of its column; pin it to
-       the familiar bottom-right corner instead. Position-only override on the
-       slotted (light-DOM) bubble — never touch the chat-messenger host. */
-    chat-messenger-chat-bubble {
+       the familiar bottom-right corner instead — but ONLY while the chat is
+       closed (host carries .messenger-hidden). While open, the bubble must stay
+       in its native spot above the titlebar: it is the close control, and an
+       always-pinned bubble ends up hidden underneath the open panel. */
+    chat-messenger.messenger-hidden chat-messenger-chat-bubble {
       position: fixed !important;
       bottom: 24px;
       right: 24px;
