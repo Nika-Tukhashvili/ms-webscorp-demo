@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Version 1 — minimal embed (no CSS)</title>
+  <title>Version 1 — minimal embed (default look)</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
            color: #1b2a4a; max-width: 60ch; margin: 4rem auto; padding: 0 1.5rem; line-height: 1.6; }
@@ -12,30 +12,135 @@
 </head>
 <body>
   <h1>Version 1 — minimal embed</h1>
-  <p>The chat widget on this page comes from the <strong>~12-line minimal
-     embed</strong>: SDK + deployment pointer + widget element. No custom CSS,
-     no theming — Google's default look. This is the smallest possible
-     integration.</p>
+  <p>The assistant on this page (button, bottom-right) uses the
+     <strong>minimal embed</strong>: the ~15-line integration plus our small
+     helper script, <strong>no theming CSS</strong> — Google's default look.</p>
 
-  <!-- ═══ Making Science Assistant — minimal embed (version 1) ═══ -->
-  <script defer src="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/chat-messenger.js"></script>
-  <link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-default.css">
-  <link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-layout.css">
-  <script>
-    window.addEventListener("chat-messenger-loaded", () => {
-      chatSdk.registerContext(
-        chatSdk.prebuilts.ces.createContext({
-          deploymentName: "projects/109044558918/locations/eu/apps/6e6b11a6-c0e5-43b3-813a-28f21963fbcb/deployments/c881ca00-3252-4443-9356-76061fa75a4a",
-          tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
-        }),
-      );
+<!-- ══════════════════════════════════════════════════════════════════════
+     Making Science Website Assistant — embed VERSION 1 (minimal, default look)
+
+     Paste this entire block just before the closing </body> tag.
+
+     Part 1 is the actual integration — about 15 lines. Part 2 is a helper
+     we provide as-is: it adds the open/close button and works around two
+     known bugs in Google's stock widget (its built-in launcher can stop
+     responding, and an expired session can get stuck on a 403 error).
+     No configuration needed; nothing loads from any host except Google's
+     CDN (www.gstatic.com).
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ── Part 1: the embed itself ──────────────────────────────────────────── -->
+<script defer src="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/chat-messenger.js"></script>
+<link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-default.css">
+<link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-layout.css">
+<script>
+  window.addEventListener("chat-messenger-loaded", () => {
+    chatSdk.registerContext(
+      chatSdk.prebuilts.ces.createContext({
+        deploymentName: "projects/109044558918/locations/eu/apps/6e6b11a6-c0e5-43b3-813a-28f21963fbcb/deployments/c881ca00-3252-4443-9356-76061fa75a4a",
+        tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+      }),
+    );
+  });
+</script>
+<chat-messenger url-allowlist="*" render-mode="slide-in">
+  <chat-messenger-container chat-title="Making Science Assistant" enable-audio-input>
+  </chat-messenger-container>
+</chat-messenger>
+
+<!-- ── Part 2: helper (provided as-is — no need to modify) ──────────────────
+     • Open/close button: Google's built-in launcher bubble has a state bug
+       (clicking it can silently stop toggling the panel), so the widget is
+       shown/hidden by this page-owned button instead. The SDK's internal
+       state is never touched — the conversation survives open/close.
+     • Session guard: when the 30-min session expires, the stock widget
+       reuses a stale auth token and every request fails with a 403 that
+       Retry can't recover from; the guard drops the stale token.        -->
+<style>
+  body.ms-chat-hidden chat-messenger { display: none !important; }
+  body.ms-chat-hidden { overflow: auto !important; padding-right: 0 !important; }
+  #ms-chat-fab {
+    position: fixed; right: 24px; bottom: 24px; z-index: 2147483000;
+    width: 56px; height: 56px; border-radius: 50%; border: none;
+    background: var(--ms-chat-fab-background, #1a73e8); color: #fff; font-size: 24px; line-height: 56px;
+    text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,.3); cursor: pointer; padding: 0;
+  }
+  #ms-chat-fab.docked {
+    position: static; width: 32px; height: 32px; border-radius: 50%;
+    background: #fff; color: #333; font-size: 16px; line-height: 32px;
+    box-shadow: none; margin: 0 4px 0 0;
+  }
+</style>
+<script>
+  (function msSessionTokenGuard() {
+    function tokenSessionClaim(tok) {
+      try {
+        const payload = JSON.parse(atob(tok.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        const m = JSON.stringify(payload).match(/dfMessenger-[0-9a-fA-F-]+/);
+        return m ? m[0] : null;
+      } catch (e) { return null; }
+    }
+    function dropStaleToken() {
+      try {
+        const SS = window.sessionStorage;
+        const tok = SS.getItem('chat-messenger-access-token');
+        if (!tok) return false;
+        const sid = SS.getItem('chat-messenger-sessionID');
+        const exp = SS.getItem('chat-messenger-session-id-expires-at');
+        const claim = tokenSessionClaim(tok);
+        const sessionGone = !sid || (exp && new Date(exp) < new Date());
+        const mismatch = !!(claim && sid && claim !== sid);
+        if (sessionGone || mismatch) {
+          SS.removeItem('chat-messenger-access-token');
+          SS.removeItem('chat-messenger-access-token-expires-at');
+          return true;
+        }
+      } catch (e) {}
+      return false;
+    }
+    dropStaleToken();
+    let recovered = false;
+    window.addEventListener('chat-messenger-error', () => {
+      if (dropStaleToken() && !recovered) {
+        recovered = true;
+        setTimeout(() => window.location.reload(), 400);
+      }
     });
-  </script>
-  <chat-messenger url-allowlist="*" render-mode="slide-in">
-    <chat-messenger-chat-bubble></chat-messenger-chat-bubble>
-    <chat-messenger-container chat-title="Making Science Assistant" enable-audio-input>
-    </chat-messenger-container>
-  </chat-messenger>
-  <!-- ═══ end minimal embed ═══ -->
+  })();
+
+  (function msChatToggle() {
+    document.body.classList.add('ms-chat-hidden'); // start closed on every load
+
+    const fab = document.createElement('button');
+    fab.id = 'ms-chat-fab'; fab.type = 'button'; fab.textContent = '💬';
+    fab.setAttribute('aria-label', 'Open chat');
+
+    function setOpen(open) {
+      document.body.classList.toggle('ms-chat-hidden', !open);
+      if (open) {
+        document.body.style.removeProperty('padding-right');
+        document.body.style.removeProperty('overflow');
+      } else {
+        document.body.style.setProperty('padding-right', '0', 'important');
+        document.body.style.setProperty('overflow', 'auto', 'important');
+      }
+      fab.textContent = open ? '✕' : '💬';
+      fab.classList.toggle('docked', open);
+      fab.setAttribute('aria-label', open ? 'Close chat' : 'Open chat');
+      const container = document.querySelector('chat-messenger-container');
+      if (open && container) {
+        fab.setAttribute('slot', 'titlebar-actions');
+        container.appendChild(fab);
+      } else {
+        fab.removeAttribute('slot');
+        document.body.appendChild(fab);
+      }
+    }
+    setOpen(false);
+    fab.addEventListener('click', () => setOpen(document.body.classList.contains('ms-chat-hidden')));
+    document.body.appendChild(fab);
+  })();
+</script>
+<!-- ═══════════════ end Making Science Assistant embed (version 1) ═══════════════ -->
 </body>
 </html>
