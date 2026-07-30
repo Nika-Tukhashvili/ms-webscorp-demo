@@ -120,6 +120,48 @@
   </chat-messenger>
 
   <script>
+    // Session/token guard (ported fix for a known SDK bug). The chat SDK stores
+    // the session id and its auth token as SEPARATE sessionStorage keys; when
+    // the 30-min session expires it clears the session keys but NOT the token,
+    // then mints a new session that reuses the stale token → every request
+    // 403s with "Session claim does not match the session name" and Retry can
+    // never recover. Drop the stale token so the broker mints a fresh one.
+    (function sessionTokenGuard() {
+      function tokenSessionClaim(tok) {
+        try {
+          const payload = JSON.parse(atob(tok.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+          const m = JSON.stringify(payload).match(/dfMessenger-[0-9a-fA-F-]+/);
+          return m ? m[0] : null;
+        } catch (e) { return null; }
+      }
+      function dropStaleToken() {
+        try {
+          const SS = window.sessionStorage;
+          const tok = SS.getItem('chat-messenger-access-token');
+          if (!tok) return false;
+          const sid = SS.getItem('chat-messenger-sessionID');
+          const exp = SS.getItem('chat-messenger-session-id-expires-at');
+          const claim = tokenSessionClaim(tok);
+          const sessionGone = !sid || (exp && new Date(exp) < new Date());
+          const mismatch = !!(claim && sid && claim !== sid);
+          if (sessionGone || mismatch) {
+            SS.removeItem('chat-messenger-access-token');
+            SS.removeItem('chat-messenger-access-token-expires-at');
+            return true;
+          }
+        } catch (e) {}
+        return false;
+      }
+      dropStaleToken();
+      let recovered = false;
+      window.addEventListener('chat-messenger-error', () => {
+        if (dropStaleToken() && !recovered) {
+          recovered = true;
+          setTimeout(() => window.location.reload(), 400);
+        }
+      });
+    })();
+
     // Page-owned chat toggle (ported from a battle-tested prior project).
     // Why: the SDK renders the panel open on load, and its launcher/close
     // controls can desync (dead bubble). We own visibility instead:
