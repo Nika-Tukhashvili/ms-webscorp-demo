@@ -74,17 +74,21 @@
       --chat-messenger-internal-chat-bubble-background-color: #f0076f;
       --chat-messenger-internal-chat-bubble-icon-color: #ffffff;
     }
-    /* The SDK parks the collapsed launcher at the top of its column; pin it to
-       the familiar bottom-right corner instead — but ONLY while the chat is
-       closed (host carries .messenger-hidden). While open, the bubble must stay
-       in its native spot above the titlebar: it is the close control, and an
-       always-pinned bubble ends up hidden underneath the open panel. */
-    chat-messenger.messenger-hidden chat-messenger-chat-bubble {
-      position: fixed !important;
-      bottom: 24px;
-      right: 24px;
-      top: auto !important;
-      left: auto !important;
+    /* Chat visibility is page-owned (see chatToggle script below): the SDK's
+       own launcher/close controls proved unreliable, so we hide the widget
+       with a class and drive open/close with our own button. */
+    body.chat-hidden chat-messenger { display: none !important; }
+    body.chat-hidden { overflow: auto !important; padding-right: 0 !important; }
+    #chat-fab {
+      position: fixed; right: 24px; bottom: 24px; z-index: 2147483000;
+      width: 56px; height: 56px; border-radius: 50%; border: none;
+      background: #f0076f; color: #fff; font-size: 24px; line-height: 56px;
+      text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,.3); cursor: pointer; padding: 0;
+    }
+    #chat-fab.docked {
+      position: static; width: 32px; height: 32px; border-radius: 50%;
+      background: #fff; color: #333; font-size: 16px; line-height: 32px;
+      box-shadow: none; margin: 0 4px 0 0;
     }
   </style>
   <script>
@@ -101,7 +105,6 @@
     });
   </script>
   <chat-messenger url-allowlist="*" render-mode="slide-in">
-    <chat-messenger-chat-bubble chat-title="Making Science Assistant"></chat-messenger-chat-bubble>
     <chat-messenger-container
       chat-title="Making Science Assistant"
       chat-title-icon="ms-logo.png"
@@ -110,10 +113,59 @@
     >
       <chat-reset-session-button slot="titlebar-actions" title-text="Start new chat"></chat-reset-session-button>
       <chat-toggle-dialog-button slot="titlebar-actions" title-text-expanded="Collapse" title-text-collapsed="Expand"></chat-toggle-dialog-button>
-      <!-- No chat-messenger-close-button: it hides the panel without resetting the
-           launcher bubble's state, leaving a dead bubble (SDK bug, reproduced here
-           and on a previous project). The bubble itself is the open/close control. -->
+      <!-- Open/close is page-owned (chatToggle below). The SDK's own launcher and
+           close-button desync from each other — reproduced here and on a previous
+           project — so neither is used. -->
     </chat-messenger-container>
   </chat-messenger>
+
+  <script>
+    // Page-owned chat toggle (ported from a battle-tested prior project).
+    // Why: the SDK renders the panel open on load, and its launcher/close
+    // controls can desync (dead bubble). We own visibility instead:
+    //  - body.chat-hidden hides the whole widget layer (CSS above);
+    //  - one button (#chat-fab) floats bottom-right when closed and docks
+    //    into the titlebar as a ✕ when open;
+    //  - the SDK reserves body padding + locks scroll via its own !important
+    //    rules while it thinks the chat is open — only INLINE styles beat
+    //    those, so we set/remove them on close/open;
+    //  - the SDK's internal state is never touched, so the conversation
+    //    survives open/close cycles.
+    (function chatToggle() {
+      document.body.classList.add('chat-hidden'); // start closed on every load
+
+      const fab = document.createElement('button');
+      fab.id = 'chat-fab'; fab.type = 'button'; fab.textContent = '💬';
+      fab.setAttribute('aria-label', 'Open chat');
+
+      function setOpen(open) {
+        document.body.classList.toggle('chat-hidden', !open);
+        if (open) {
+          document.body.style.removeProperty('padding-right');
+          document.body.style.removeProperty('overflow');
+        } else {
+          document.body.style.setProperty('padding-right', '0', 'important');
+          document.body.style.setProperty('overflow', 'auto', 'important');
+        }
+        fab.textContent = open ? '✕' : '💬';
+        fab.classList.toggle('docked', open);
+        fab.setAttribute('aria-label', open ? 'Close chat' : 'Open chat');
+        // Dock into the titlebar-actions slot while open: it renders next to
+        // the SDK's own buttons, and rides into the top layer if the expand
+        // (dialog) mode is used — a fixed-position button would be buried.
+        const container = document.querySelector('chat-messenger-container');
+        if (open && container) {
+          fab.setAttribute('slot', 'titlebar-actions');
+          container.appendChild(fab);
+        } else {
+          fab.removeAttribute('slot');
+          document.body.appendChild(fab);
+        }
+      }
+      setOpen(false);
+      fab.addEventListener('click', () => setOpen(document.body.classList.contains('chat-hidden')));
+      document.body.appendChild(fab);
+    })();
+  </script>
 </body>
 </html>
