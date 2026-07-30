@@ -108,7 +108,9 @@
     >
       <chat-reset-session-button slot="titlebar-actions" title-text="Start new chat"></chat-reset-session-button>
       <chat-toggle-dialog-button slot="titlebar-actions" title-text-expanded="Collapse" title-text-collapsed="Expand"></chat-toggle-dialog-button>
-      <chat-messenger-close-button slot="titlebar-actions" title-text="Close"></chat-messenger-close-button>
+      <!-- No chat-messenger-close-button: it hides the panel without resetting the
+           launcher bubble's state, leaving a dead bubble (SDK bug, reproduced here
+           and on a previous project). The bubble itself is the open/close control. -->
     </chat-messenger-container>
   </chat-messenger>
 </body>
