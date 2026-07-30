@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Version 1 — minimal embed (no CSS)</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+           color: #1b2a4a; max-width: 60ch; margin: 4rem auto; padding: 0 1.5rem; line-height: 1.6; }
+    code { background: #f2f4f9; border-radius: 4px; padding: .15em .4em; font-size: .9em; }
+  </style>
+</head>
+<body>
+  <h1>Version 1 — minimal embed</h1>
+  <p>The chat widget on this page comes from the <strong>~12-line minimal
+     embed</strong>: SDK + deployment pointer + widget element. No custom CSS,
+     no theming — Google's default look. This is the smallest possible
+     integration.</p>
+
+  <!-- ═══ Making Science Assistant — minimal embed (version 1) ═══ -->
+  <script defer src="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/chat-messenger.js"></script>
+  <link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-default.css">
+  <link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-layout.css">
+  <script>
+    window.addEventListener("chat-messenger-loaded", () => {
+      chatSdk.registerContext(
+        chatSdk.prebuilts.ces.createContext({
+          deploymentName: "projects/109044558918/locations/eu/apps/6e6b11a6-c0e5-43b3-813a-28f21963fbcb/deployments/c881ca00-3252-4443-9356-76061fa75a4a",
+          tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+        }),
+      );
+    });
+  </script>
+  <chat-messenger url-allowlist="*" render-mode="slide-in">
+    <chat-messenger-chat-bubble></chat-messenger-chat-bubble>
+    <chat-messenger-container chat-title="Making Science Assistant" enable-audio-input>
+    </chat-messenger-container>
+  </chat-messenger>
+  <!-- ═══ end minimal embed ═══ -->
+</body>
+</html>
