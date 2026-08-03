@@ -212,6 +212,10 @@
         --chat-messenger-internal-titlebar-icon-font-color: #ffffff;
         --chat-messenger-internal-titlebar-button-color: #ffffff;
         --chat-messenger-internal-titlebar-button-color-hover: #f0076f;
+        --chat-messenger-internal-titlebar-title-font-size: 14px; /* was 16px (title-medium) */
+        /* Logo (title-bar icon) size — otherwise it inherits the title font-size above. */
+        --chat-messenger-internal-titlebar-icon-height: 34px;
+        --chat-messenger-internal-titlebar-icon-width: 34px;
 
         /* ── Message bubbles: rounder, roomier, more breathing room ───────────── */
         --chat-messenger-internal-message-border-radius: 18px;
@@ -246,9 +250,27 @@
         --chat-messenger-internal-input-box-border: 1.5px solid #e4def2;
         --chat-messenger-internal-input-border-top: 1px solid #eae7f5;
 
-        /* ── Panel frame (host, light DOM): soft left-edge shadow on the side panel */
+        /* ── Card frame (host, light DOM): rounded corners + all-around lift ───── */
         overflow: hidden;
-        box-shadow: -18px 0 50px rgba(13, 27, 61, 0.2);
+        box-shadow:
+          0 20px 60px rgba(13, 27, 61, 0.28),
+          0 4px 16px rgba(13, 27, 61, 0.12);
+      }
+      /* ── Floating card (slide-over): a little smaller, pinned to the corner ────
+         The SDK hard-codes the width per breakpoint (412px on desktop) and uses
+         position:absolute (which scrolls out of view on a long page), so we
+         override both. Scoped to ≥840px so mobile keeps the SDK's responsive
+         full-width sheet. */
+      chat-messenger.slide-over {
+        --chat-messenger-internal-chat-border-radius: 22px; /* clean card corner */
+      }
+      @media (min-width: 840px) {
+        chat-messenger.slide-over {
+          width: 380px !important;
+          height: 600px !important;
+          max-height: calc(100vh - 32px);
+          position: fixed !important; /* stay in the corner while the page scrolls */
+        }
       }
       /* Chat visibility is page-owned (see msChatToggle below): the SDK's own
      launcher/close controls can desync, so open/close is driven by our
@@ -374,9 +396,9 @@
       });
     </script>
 
-    <chat-messenger url-allowlist="*" render-mode="slide-in">
+    <chat-messenger url-allowlist="*" render-mode="slide-over">
       <chat-messenger-container
-        chat-title="Making Science Assistant"
+        chat-title="MS Assistant"
         chat-title-icon="ms-logo.png"
         enable-file-upload
         enable-audio-input
@@ -459,7 +481,46 @@
         fab.textContent = "💬";
         fab.setAttribute("aria-label", "Open chat");
 
+        // True while the chat is in fullscreen/expanded mode: the SDK opens a native
+        // <dialog> (showModal) inside its shadow DOM. Detect it by piercing shadow
+        // roots; also honor the scroll-lock class the SDK sometimes adds.
+        function chatIsExpanded() {
+          if (
+            document.body.classList.contains(
+              "chat-messenger-global-scroll-lock",
+            )
+          )
+            return true;
+          const root = document.querySelector("chat-messenger");
+          if (!root) return false;
+          const stack = [root];
+          while (stack.length) {
+            const node = stack.pop();
+            const els = node.querySelectorAll ? node.querySelectorAll("*") : [];
+            for (const el of els) {
+              if (el.tagName === "DIALOG" && el.open) return true;
+              if (el.shadowRoot) stack.push(el.shadowRoot);
+            }
+          }
+          return false;
+        }
+
         function setOpen(open) {
+          // If the chat is expanded, the SDK has opened a fullscreen <dialog> (via
+          // showModal, in the shadow DOM) and may have locked page scroll. Just
+          // hiding the host leaves that dialog open, so the widget stays stuck
+          // expanded and the launcher can't reopen it. Collapse first via the SDK's
+          // own control so it tears the dialog + scroll-lock down cleanly.
+          if (!open && chatIsExpanded()) {
+            const dlgBtn = document.querySelector("chat-toggle-dialog-button");
+            if (dlgBtn) {
+              // the clickable is a <button> inside its shadow root, not the host
+              const inner =
+                dlgBtn.shadowRoot &&
+                dlgBtn.shadowRoot.querySelector("button, [role='button']");
+              (inner || dlgBtn).click();
+            }
+          }
           document.body.classList.toggle("ms-chat-hidden", !open);
           if (open) {
             document.body.style.removeProperty("padding-right");
