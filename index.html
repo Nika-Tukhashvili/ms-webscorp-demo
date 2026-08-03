@@ -1,55 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Making Science — Assistant Demo</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1b2a4a; }
-    nav { background: #0d1b3d; color: #fff; padding: 1rem 2.5rem; display: flex; align-items: center; gap: 2rem; }
-    nav .logo { font-weight: 800; font-size: 1.15rem; letter-spacing: .02em; }
-    nav .logo span { background: linear-gradient(90deg, #2440ff, #a020f0, #ff2e88, #ffb400); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    nav a { color: #cdd6ea; text-decoration: none; font-size: .9rem; }
-    header { background: linear-gradient(135deg, #0d1b3d 0%, #1b2a5e 100%); color: #fff; padding: 5rem 2.5rem; }
-    header h1 { font-size: 2.6rem; max-width: 30ch; line-height: 1.15; }
-    header h1 em { font-style: normal; background: linear-gradient(90deg, #ff2e88, #ffb400); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    header p { margin-top: 1rem; max-width: 60ch; color: #cdd6ea; font-size: 1.05rem; }
-    main { padding: 3rem 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
-    .card { border: 1px solid #e3e8f2; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 16px rgba(13,27,61,.06); }
-    .card h3 { font-size: 1rem; margin-bottom: .5rem; }
-    .card p { font-size: .9rem; color: #5a6782; line-height: 1.5; }
-    footer { padding: 2rem 2.5rem; color: #8a94ab; font-size: .8rem; text-align: center; border-top: 1px solid #e3e8f2; margin-top: 2rem; }
-    .note { background: #fff7e0; border: 1px solid #f0dfa0; border-radius: 8px; padding: .8rem 1.2rem; margin: 1.5rem auto 0; max-width: 1100px; font-size: .85rem; color: #6b5b1e; }
-  </style>
-</head>
-<body>
-  <nav>
-    <div class="logo">making<span>science</span> · assistant demo</div>
-    <a href="#">Capabilities</a><a href="#">About</a><a href="#">ESG</a>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Making Science — Assistant Demo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #1b2a4a;
+      }
+      nav {
+        background: #0d1b3d;
+        color: #fff;
+        padding: 1rem 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+      nav .logo {
+        font-weight: 800;
+        font-size: 1.15rem;
+        letter-spacing: 0.02em;
+      }
+      nav .logo span {
+        background: linear-gradient(90deg, #2440ff, #a020f0, #ff2e88, #ffb400);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      nav a {
+        color: #cdd6ea;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      header {
+        background: linear-gradient(135deg, #0d1b3d 0%, #1b2a5e 100%);
+        color: #fff;
+        padding: 5rem 2.5rem;
+      }
+      header h1 {
+        font-size: 2.6rem;
+        max-width: 30ch;
+        line-height: 1.15;
+      }
+      header h1 em {
+        font-style: normal;
+        background: linear-gradient(90deg, #ff2e88, #ffb400);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      header p {
+        margin-top: 1rem;
+        max-width: 60ch;
+        color: #cdd6ea;
+        font-size: 1.05rem;
+      }
+      main {
+        padding: 3rem 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.25rem;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .card {
+        border: 1px solid #e3e8f2;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 16px rgba(13, 27, 61, 0.06);
+      }
+      .card h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .card p {
+        font-size: 0.9rem;
+        color: #5a6782;
+        line-height: 1.5;
+      }
+      footer {
+        padding: 2rem 2.5rem;
+        color: #8a94ab;
+        font-size: 0.8rem;
+        text-align: center;
+        border-top: 1px solid #e3e8f2;
+        margin-top: 2rem;
+      }
+      .note {
+        background: #fff7e0;
+        border: 1px solid #f0dfa0;
+        border-radius: 8px;
+        padding: 0.8rem 1.2rem;
+        margin: 1.5rem auto 0;
+        max-width: 1100px;
+        font-size: 0.85rem;
+        color: #6b5b1e;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">making<span>science</span> · assistant demo</div>
+      <a href="#">Capabilities</a><a href="#">About</a><a href="#">ESG</a>
+    </nav>
 
-  <header>
-    <h1>The Hybrid Intelligence. <em>Decisive Advantage.</em></h1>
-    <p>Internal demo page for the Making Science website assistant. Open the chat bubble
-       (bottom-right) and talk to the agent exactly as a site visitor would.</p>
-  </header>
+    <header>
+      <h1>The Hybrid Intelligence. <em>Decisive Advantage.</em></h1>
+      <p>
+        Internal demo page for the Making Science website assistant. Open the
+        chat bubble (bottom-right) and talk to the agent exactly as a site
+        visitor would.
+      </p>
+    </header>
 
-  <div class="note">
-    ⚠️ Internal testing page — not the production embed. Try: general company questions,
-    product questions (ad-machina, Opti Suite), a lead flow ("I'd like to talk to someone"),
-    an out-of-scope question (careers, pricing), and a non-English message.
-  </div>
+    <div class="note">
+      ⚠️ Internal testing page — not the production embed. Try: general company
+      questions, product questions (ad-machina, Opti Suite), a lead flow ("I'd
+      like to talk to someone"), an out-of-scope question (careers, pricing),
+      and a non-English message.
+    </div>
 
-  <main>
-    <div class="card"><h3>🧪 Grounded answers</h3><p>Every company fact should come from the approved content. If it's not covered, the agent should say so — not improvise.</p></div>
-    <div class="card"><h3>🤝 Lead capture</h3><p>Show buying intent and check that the agent collects email + name + company, asks for consent, and only then submits.</p></div>
-    <div class="card"><h3>🛡️ Scope guard</h3><p>Careers, pricing, legal, competitors — each should get its specific redirect, politely.</p></div>
-  </main>
+    <main>
+      <div class="card">
+        <h3>🧪 Grounded answers</h3>
+        <p>
+          Every company fact should come from the approved content. If it's not
+          covered, the agent should say so — not improvise.
+        </p>
+      </div>
+      <div class="card">
+        <h3>🤝 Lead capture</h3>
+        <p>
+          Show buying intent and check that the agent collects email + name +
+          company, asks for consent, and only then submits.
+        </p>
+      </div>
+      <div class="card">
+        <h3>🛡️ Scope guard</h3>
+        <p>
+          Careers, pricing, legal, competitors — each should get its specific
+          redirect, politely.
+        </p>
+      </div>
+    </main>
 
-  <footer>Making Science website assistant — internal demo · ms-webscorp-pre</footer>
+    <footer>
+      Making Science website assistant — internal demo · ms-webscorp-pre
+    </footer>
 
-<!-- ══════════════════════════════════════════════════════════════════════
+    <!-- ══════════════════════════════════════════════════════════════════════
      Making Science Website Assistant — embed block
      Paste this entire block just before the closing </body> tag.
      Self-contained: the widget loads from Google's CDN (www.gstatic.com);
@@ -58,162 +164,332 @@
      image hosted on your site (we provide the file: ms-logo.png).
      ══════════════════════════════════════════════════════════════════════ -->
 
-<!-- Google chat widget SDK (official Google CDN) -->
-<script defer src="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/chat-messenger.js"></script>
-<link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-default.css">
-<link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-layout.css">
+    <!-- Google chat widget SDK (official Google CDN) -->
+    <script
+      defer
+      src="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/chat-messenger.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-default.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-layout.css"
+    />
 
-<style>
-  /* Making Science theming — palette tokens + internal tokens for the
+    <style>
+      /* Making Science theming — palette tokens + internal tokens for the
      titlebar/launcher that the default theme doesn't expose. */
-  chat-messenger {
-    --chat-messenger-color--primary: #f0076f;
-    --chat-messenger-color--on-primary: #ffffff;
-    --chat-messenger-color--outline-active: #f0076f;
-    --chat-messenger-color--link: #0d1b3d;
-    --chat-messenger-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --chat-messenger-internal-primary-color: #f0076f;
-    --chat-messenger-internal-titlebar-background: #0d1b3d;
-    --chat-messenger-internal-titlebar-background-color: #0d1b3d;
-    --chat-messenger-internal-titlebar-font-color: #ffffff;
-    --chat-messenger-internal-titlebar-icon-font-color: #ffffff;
-    --chat-messenger-internal-titlebar-button-color: #ffffff;
-    --chat-messenger-internal-titlebar-button-color-hover: #f0076f;
-    --chat-messenger-internal-chat-bubble-background: #f0076f;
-    --chat-messenger-internal-chat-bubble-background-color: #f0076f;
-    --chat-messenger-internal-chat-bubble-icon-color: #ffffff;
-  }
-  /* Chat visibility is page-owned (see msChatToggle below): the SDK's own
+      chat-messenger {
+        /* ── Palette ─────────────────────────────────────────────────────────── */
+        --chat-messenger-color--primary: #f0076f; /* accent + user bubble */
+        --chat-messenger-color--on-primary: #ffffff;
+        --chat-messenger-color--outline-active: #f0076f; /* input focus ring */
+        --chat-messenger-color--link: #0d1b3d;
+        --chat-messenger-color--surface: #eef0fa; /* message area — soft lavender, ties to the purple header */
+        --chat-messenger-color--surface-container: #ffffff; /* bubbles / input / cards */
+        --chat-messenger-color--surface-container-high: #ffffff; /* bot bubble / elevated */
+        --chat-messenger-color--secondary: #e9edf7; /* mic / file-chip surfaces */
+        --chat-messenger-color--on-surface: #1b2a4a; /* primary text → brand navy */
+        --chat-messenger-color--on-surface-variant: #5a6782; /* muted text / placeholder */
+        --chat-messenger-font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        /* Rounder everything (cards, citations, hero images, chat window corner) */
+        --chat-messenger-shape--corner-value-medium: 18px;
+        --chat-messenger-shape--corner-value-large: 22px;
+
+        /* ── Titlebar: brand gradient so the multicolor logo glows against it ──── */
+        --chat-messenger-internal-primary-color: #f0076f;
+        --chat-messenger-internal-titlebar-background: linear-gradient(
+          120deg,
+          #0d1b3d 0%,
+          #2b1a5e 55%,
+          #4a1d6e 100%
+        );
+        --chat-messenger-internal-titlebar-background-color: #0d1b3d;
+        --chat-messenger-internal-titlebar-font-color: #ffffff;
+        --chat-messenger-internal-titlebar-icon-font-color: #ffffff;
+        --chat-messenger-internal-titlebar-button-color: #ffffff;
+        --chat-messenger-internal-titlebar-button-color-hover: #f0076f;
+
+        /* ── Message bubbles: rounder, roomier, more breathing room ───────────── */
+        --chat-messenger-internal-message-border-radius: 18px;
+        --chat-messenger-internal-message-bot-border-top-left-radius: 18px;
+        --chat-messenger-internal-message-user-border-top-right-radius: 18px;
+        --chat-messenger-internal-message-padding: 11px 15px;
+        --chat-messenger-internal-message-stack-spacing: 8px;
+        --chat-messenger-internal-first-message-margin-top: 12px;
+        /* Bubble colors — user = brand pink, bot = white so it lifts off the
+           lavender message area (its default would blend into --surface). */
+        --chat-messenger-internal-message-user-background: #f0076f;
+        --chat-messenger-internal-message-user-font-color: #ffffff;
+        --chat-messenger-internal-message-bot-background: #ffffff;
+        --chat-messenger-internal-message-bot-font-color: #1b2a4a;
+        --chat-messenger-internal-message-bot-border: 1px solid #e7e3f3;
+        --chat-messenger-internal-chat-bubble-background: #f0076f;
+        --chat-messenger-internal-chat-bubble-background-color: #f0076f;
+        --chat-messenger-internal-chat-bubble-icon-color: #ffffff;
+
+        /* ── Suggestion chips: pill shape + subtle lift ───────────────────────── */
+        --chat-messenger-internal-chips-border-radius: 999px;
+        --chat-messenger-internal-chips-box-shadow: 0 1px 3px
+          rgba(13, 27, 61, 0.1);
+        --chat-messenger-internal-chips-font-color: #0d1b3d;
+
+        /* ── Suggestion / scroll-to-bottom button: branded ────────────────────── */
+        --chat-messenger-internal-chat-scroll-button-background: #ffffff;
+        --chat-messenger-internal-chat-scroll-button-font-color: #0d1b3d;
+
+        /* ── Input box: full pill, soft lavender border, hairline divider above ── */
+        --chat-messenger-internal-input-box-border-radius: 28px;
+        --chat-messenger-internal-input-box-border: 1.5px solid #e4def2;
+        --chat-messenger-internal-input-border-top: 1px solid #eae7f5;
+
+        /* ── Panel frame (host, light DOM): soft left-edge shadow on the side panel */
+        overflow: hidden;
+        box-shadow: -18px 0 50px rgba(13, 27, 61, 0.2);
+      }
+      /* Chat visibility is page-owned (see msChatToggle below): the SDK's own
      launcher/close controls can desync, so open/close is driven by our
      own button instead. */
-  body.ms-chat-hidden chat-messenger { display: none !important; }
-  body.ms-chat-hidden { overflow: auto !important; padding-right: 0 !important; }
-  #ms-chat-fab {
-    position: fixed; right: 24px; bottom: 24px; z-index: 2147483000;
-    width: 56px; height: 56px; border-radius: 50%; border: none;
-    background: #f0076f; color: #fff; font-size: 24px; line-height: 56px;
-    text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,.3); cursor: pointer; padding: 0;
-  }
-  #ms-chat-fab.docked {
-    position: static; width: 32px; height: 32px; border-radius: 50%;
-    background: #fff; color: #333; font-size: 16px; line-height: 32px;
-    box-shadow: none; margin: 0 4px 0 0;
-  }
-</style>
-
-<script>
-  window.addEventListener("chat-messenger-loaded", () => {
-    chatSdk.registerContext(
-      chatSdk.prebuilts.ces.createContext({
-        deploymentName: "projects/109044558918/locations/eu/apps/6e6b11a6-c0e5-43b3-813a-28f21963fbcb/deployments/c881ca00-3252-4443-9356-76061fa75a4a",
-        tokenBroker: {
-          enableTokenBroker: true,
-          enableRecaptcha: false
+      body.ms-chat-hidden chat-messenger {
+        display: none !important;
+      }
+      body.ms-chat-hidden {
+        overflow: auto !important;
+        padding-right: 0 !important;
+      }
+      /* Launcher (the floating chat icon) — the ms-logo as the hero, on a white
+     disc, wrapped in an animated multicolor glow. Emoji glyph set by the JS
+     is hidden with CSS (font:0/0); the icon is painted via background so the
+     toggle logic is never touched. */
+      #ms-chat-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 2147483000;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: none;
+        background: url("ms-logo.png") center/58% no-repeat #fff;
+        color: transparent;
+        font: 0/0 a;
+        text-shadow: none;
+        box-shadow:
+          0 10px 28px rgba(240, 7, 111, 0.35),
+          0 4px 12px rgba(13, 27, 61, 0.25);
+        cursor: pointer;
+        padding: 0;
+        transition:
+          transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.25s ease;
+        animation: msFabIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      #ms-chat-fab::before {
+        /* animated glow halo behind the button */
+        content: "";
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        z-index: -1;
+        background: conic-gradient(
+          from 0deg,
+          #ff2e88,
+          #a020f0,
+          #ffb400,
+          #2440ff,
+          #ff2e88
+        );
+        filter: blur(9px);
+        opacity: 0.6;
+        animation: msPulse 2.8s ease-in-out infinite;
+      }
+      #ms-chat-fab:hover {
+        transform: scale(1.08);
+        box-shadow:
+          0 14px 36px rgba(240, 7, 111, 0.5),
+          0 6px 16px rgba(13, 27, 61, 0.3);
+      }
+      #ms-chat-fab:active {
+        transform: scale(0.96);
+      }
+      /* Docked (open) — small crisp ✕ in the titlebar, halo off. */
+      #ms-chat-fab.docked {
+        position: static;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M1 1l12 12M13 1L1 13' stroke='%23333' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+          center/14px no-repeat #fff;
+        box-shadow: none;
+        margin: 0 4px 0 0;
+        animation: none;
+      }
+      #ms-chat-fab.docked::before {
+        display: none;
+      }
+      @keyframes msPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.5;
         }
-      }),
-    );
-  });
-</script>
+        50% {
+          transform: scale(1.12);
+          opacity: 0.8;
+        }
+      }
+      @keyframes msFabIn {
+        from {
+          opacity: 0;
+          transform: scale(0.7);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #ms-chat-fab,
+        #ms-chat-fab::before {
+          animation: none;
+        }
+      }
+    </style>
 
-<chat-messenger url-allowlist="*" render-mode="slide-in">
-  <chat-messenger-container
-    chat-title="Making Science Assistant"
-    chat-title-icon="ms-logo.png"
-    enable-file-upload
-    enable-audio-input
-  >
-    <chat-reset-session-button slot="titlebar-actions" title-text="Start new chat"></chat-reset-session-button>
-    <chat-toggle-dialog-button slot="titlebar-actions" title-text-expanded="Collapse" title-text-collapsed="Expand"></chat-toggle-dialog-button>
-    <!-- No close-button on purpose: the SDK's launcher and close-button can
+    <script>
+      window.addEventListener("chat-messenger-loaded", () => {
+        chatSdk.registerContext(
+          chatSdk.prebuilts.ces.createContext({
+            deploymentName:
+              "projects/109044558918/locations/eu/apps/6e6b11a6-c0e5-43b3-813a-28f21963fbcb/deployments/c881ca00-3252-4443-9356-76061fa75a4a",
+            tokenBroker: {
+              enableTokenBroker: true,
+              enableRecaptcha: false,
+            },
+          }),
+        );
+      });
+    </script>
+
+    <chat-messenger url-allowlist="*" render-mode="slide-in">
+      <chat-messenger-container
+        chat-title="Making Science Assistant"
+        chat-title-icon="ms-logo.png"
+        enable-file-upload
+        enable-audio-input
+      >
+        <chat-reset-session-button
+          slot="titlebar-actions"
+          title-text="Start new chat"
+        ></chat-reset-session-button>
+        <chat-toggle-dialog-button
+          slot="titlebar-actions"
+          title-text-expanded="Collapse"
+          title-text-collapsed="Expand"
+        ></chat-toggle-dialog-button>
+        <!-- No close-button on purpose: the SDK's launcher and close-button can
          desync (dead bubble). Open/close is page-owned (msChatToggle). -->
-  </chat-messenger-container>
-</chat-messenger>
+      </chat-messenger-container>
+    </chat-messenger>
 
-<script>
-  // Session/token guard (fix for a known SDK bug). The SDK stores the
-  // session id and its auth token as SEPARATE sessionStorage keys; when the
-  // 30-min session expires it clears the session keys but NOT the token,
-  // then mints a new session that reuses the stale token → every request
-  // 403s with "Session claim does not match the session name" and Retry
-  // can never recover. Drop the stale token so a fresh one is minted.
-  (function msSessionTokenGuard() {
-    function tokenSessionClaim(tok) {
-      try {
-        const payload = JSON.parse(atob(tok.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-        const m = JSON.stringify(payload).match(/dfMessenger-[0-9a-fA-F-]+/);
-        return m ? m[0] : null;
-      } catch (e) { return null; }
-    }
-    function dropStaleToken() {
-      try {
-        const SS = window.sessionStorage;
-        const tok = SS.getItem('chat-messenger-access-token');
-        if (!tok) return false;
-        const sid = SS.getItem('chat-messenger-sessionID');
-        const exp = SS.getItem('chat-messenger-session-id-expires-at');
-        const claim = tokenSessionClaim(tok);
-        const sessionGone = !sid || (exp && new Date(exp) < new Date());
-        const mismatch = !!(claim && sid && claim !== sid);
-        if (sessionGone || mismatch) {
-          SS.removeItem('chat-messenger-access-token');
-          SS.removeItem('chat-messenger-access-token-expires-at');
-          return true;
+    <script>
+      // Session/token guard (fix for a known SDK bug). The SDK stores the
+      // session id and its auth token as SEPARATE sessionStorage keys; when the
+      // 30-min session expires it clears the session keys but NOT the token,
+      // then mints a new session that reuses the stale token → every request
+      // 403s with "Session claim does not match the session name" and Retry
+      // can never recover. Drop the stale token so a fresh one is minted.
+      (function msSessionTokenGuard() {
+        function tokenSessionClaim(tok) {
+          try {
+            const payload = JSON.parse(
+              atob(tok.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")),
+            );
+            const m = JSON.stringify(payload).match(
+              /dfMessenger-[0-9a-fA-F-]+/,
+            );
+            return m ? m[0] : null;
+          } catch (e) {
+            return null;
+          }
         }
-      } catch (e) {}
-      return false;
-    }
-    dropStaleToken();
-    let recovered = false;
-    window.addEventListener('chat-messenger-error', () => {
-      if (dropStaleToken() && !recovered) {
-        recovered = true;
-        setTimeout(() => window.location.reload(), 400);
-      }
-    });
-  })();
+        function dropStaleToken() {
+          try {
+            const SS = window.sessionStorage;
+            const tok = SS.getItem("chat-messenger-access-token");
+            if (!tok) return false;
+            const sid = SS.getItem("chat-messenger-sessionID");
+            const exp = SS.getItem("chat-messenger-session-id-expires-at");
+            const claim = tokenSessionClaim(tok);
+            const sessionGone = !sid || (exp && new Date(exp) < new Date());
+            const mismatch = !!(claim && sid && claim !== sid);
+            if (sessionGone || mismatch) {
+              SS.removeItem("chat-messenger-access-token");
+              SS.removeItem("chat-messenger-access-token-expires-at");
+              return true;
+            }
+          } catch (e) {}
+          return false;
+        }
+        dropStaleToken();
+        let recovered = false;
+        window.addEventListener("chat-messenger-error", () => {
+          if (dropStaleToken() && !recovered) {
+            recovered = true;
+            setTimeout(() => window.location.reload(), 400);
+          }
+        });
+      })();
 
-  // Page-owned chat toggle. body.ms-chat-hidden hides the widget layer; one
-  // button floats bottom-right when closed and docks into the titlebar as a
-  // ✕ when open. The SDK reserves body padding + locks scroll via its own
-  // !important rules while it thinks the chat is open — only INLINE styles
-  // beat those, so we set/remove them on close/open. The SDK's internal
-  // state is never touched, so the conversation survives open/close cycles.
-  (function msChatToggle() {
-    document.body.classList.add('ms-chat-hidden'); // start closed on every load
+      // Page-owned chat toggle. body.ms-chat-hidden hides the widget layer; one
+      // button floats bottom-right when closed and docks into the titlebar as a
+      // ✕ when open. The SDK reserves body padding + locks scroll via its own
+      // !important rules while it thinks the chat is open — only INLINE styles
+      // beat those, so we set/remove them on close/open. The SDK's internal
+      // state is never touched, so the conversation survives open/close cycles.
+      (function msChatToggle() {
+        document.body.classList.add("ms-chat-hidden"); // start closed on every load
 
-    const fab = document.createElement('button');
-    fab.id = 'ms-chat-fab'; fab.type = 'button'; fab.textContent = '💬';
-    fab.setAttribute('aria-label', 'Open chat');
+        const fab = document.createElement("button");
+        fab.id = "ms-chat-fab";
+        fab.type = "button";
+        fab.textContent = "💬";
+        fab.setAttribute("aria-label", "Open chat");
 
-    function setOpen(open) {
-      document.body.classList.toggle('ms-chat-hidden', !open);
-      if (open) {
-        document.body.style.removeProperty('padding-right');
-        document.body.style.removeProperty('overflow');
-      } else {
-        document.body.style.setProperty('padding-right', '0', 'important');
-        document.body.style.setProperty('overflow', 'auto', 'important');
-      }
-      fab.textContent = open ? '✕' : '💬';
-      fab.classList.toggle('docked', open);
-      fab.setAttribute('aria-label', open ? 'Close chat' : 'Open chat');
-      // Dock into the titlebar-actions slot while open: renders next to the
-      // SDK's own buttons and rides into the top layer in expanded (dialog)
-      // mode — a fixed-position button would be buried.
-      const container = document.querySelector('chat-messenger-container');
-      if (open && container) {
-        fab.setAttribute('slot', 'titlebar-actions');
-        container.appendChild(fab);
-      } else {
-        fab.removeAttribute('slot');
+        function setOpen(open) {
+          document.body.classList.toggle("ms-chat-hidden", !open);
+          if (open) {
+            document.body.style.removeProperty("padding-right");
+            document.body.style.removeProperty("overflow");
+          } else {
+            document.body.style.setProperty("padding-right", "0", "important");
+            document.body.style.setProperty("overflow", "auto", "important");
+          }
+          fab.textContent = open ? "✕" : "💬";
+          fab.classList.toggle("docked", open);
+          fab.setAttribute("aria-label", open ? "Close chat" : "Open chat");
+          // Dock into the titlebar-actions slot while open: renders next to the
+          // SDK's own buttons and rides into the top layer in expanded (dialog)
+          // mode — a fixed-position button would be buried.
+          const container = document.querySelector("chat-messenger-container");
+          if (open && container) {
+            fab.setAttribute("slot", "titlebar-actions");
+            container.appendChild(fab);
+          } else {
+            fab.removeAttribute("slot");
+            document.body.appendChild(fab);
+          }
+        }
+        setOpen(false);
+        fab.addEventListener("click", () =>
+          setOpen(document.body.classList.contains("ms-chat-hidden")),
+        );
         document.body.appendChild(fab);
-      }
-    }
-    setOpen(false);
-    fab.addEventListener('click', () => setOpen(document.body.classList.contains('ms-chat-hidden')));
-    document.body.appendChild(fab);
-  })();
-</script>
-<!-- ═══════════════════ end Making Science Assistant embed ═══════════════════ -->
-</body>
+      })();
+    </script>
+    <!-- ═══════════════════ end Making Science Assistant embed ═══════════════════ -->
+  </body>
 </html>
