@@ -532,6 +532,7 @@
           fab.textContent = open ? "✕" : "💬";
           fab.classList.toggle("docked", open);
           fab.setAttribute("aria-label", open ? "Close chat" : "Open chat");
+          if (open) window.dispatchEvent(new Event("ms-chat-opened"));
           // Dock into the titlebar-actions slot while open: renders next to the
           // SDK's own buttons and rides into the top layer in expanded (dialog)
           // mode — a fixed-position button would be buried.
@@ -549,6 +550,40 @@
           setOpen(document.body.classList.contains("ms-chat-hidden")),
         );
         document.body.appendChild(fab);
+      })();
+
+      // Greeting. Shown by the page (no model call, no tokens) whenever the chat
+      // is open with an empty conversation: on first open, and again after
+      // "Start new chat" or session expiry. The SDK keeps it in the session's
+      // message history, so it isn't repeated on reopen or page reload.
+      (function msGreeting() {
+        const GREETING =
+          "Hi! I'm Making Science's AI assistant. I can answer questions about our " +
+          "services, products and client work, or connect you with our team. How can I help?";
+        const SUGGESTIONS = [
+          "What products do you have?",
+          "Show me your case studies",
+          "I'd like to talk to your team",
+        ];
+
+        function greet() {
+          const messenger = document.querySelector("chat-messenger");
+          if (!messenger || typeof messenger.renderCustomText !== "function") return;
+          if (document.body.classList.contains("ms-chat-hidden")) return;
+          let history = null;
+          try {
+            history = sessionStorage.getItem("chat-messenger-messages");
+          } catch (e) {}
+          if (history) return;
+          messenger.renderCustomText(GREETING, true);
+          messenger.renderCustomCard([
+            { type: "chips", options: SUGGESTIONS.map((text) => ({ text })) },
+          ]);
+        }
+        window.addEventListener("ms-chat-opened", () => setTimeout(greet, 0));
+        ["chat-messenger-start-new-session", "chat-messenger-session-expired"].forEach(
+          (name) => window.addEventListener(name, () => setTimeout(greet, 300)),
+        );
       })();
     </script>
     <!-- ═══════════════════ end Making Science Assistant embed ═══════════════════ -->
